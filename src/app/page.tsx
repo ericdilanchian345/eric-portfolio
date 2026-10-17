@@ -877,7 +877,7 @@ export default function Home() {
               <>
                 Have an idea?
                 <br />
-                <span className="text-orange-500">Let's build it.</span>
+                <span className="text-orange-500">Let&apos;s build it.</span>
               </>
             )}
           </h2>
