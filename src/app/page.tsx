@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -28,6 +28,64 @@ export default function Home() {
   const { lang, isRTL } = useLanguage();
   const pageRef = useRef<HTMLElement | null>(null);
   const isFa = lang === "fa";
+
+  // ==================== PROJECT STATE ====================
+
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [projectsError, setProjectsError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+
+  // ==================== FETCH PROJECTS FROM API ====================
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchProjects() {
+      setProjectsLoading(true);
+      setProjectsError(false);
+
+      try {
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050";
+
+        const response = await fetch(`${apiUrl}/api/projects`);
+
+        if (!response.ok) {
+          throw new Error(`API request failed: ${response.status}`);
+        }
+
+        const data: Project[] = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error("The API response is not an array.");
+        }
+
+        if (!cancelled) {
+          setProjects(data);
+          setProjectsError(false);
+        }
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+
+        if (!cancelled) {
+          setProjectsError(true);
+        }
+      } finally {
+        if (!cancelled) {
+          setProjectsLoading(false);
+        }
+      }
+    }
+
+    fetchProjects();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [retryCount]);
+
+  // ==================== SCROLL RESTORATION ====================
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
@@ -71,73 +129,6 @@ export default function Home() {
       description: isFa
         ? "طراحی تجربه‌هایی ساده و جذاب که ارتباط کاربران با برند شما را بهتر می‌کنند."
         : "Designing simple, engaging experiences that connect people with your brand.",
-    },
-  ];
-
-  // ==================== PROJECTS ====================
-  // تصاویر را در مسیر public/images قرار بده.
-  // برای هر پروژه می‌توانی عنوان، توضیحات، تصویر، تگ‌ها و لینک مستقل تنظیم کنی.
-
-  const projects: Project[] = [
-    {
-      number: "01",
-      title: "Rockstar",
-      category: {
-        en: "Web Design & Development",
-        fa: "طراحی و توسعه وب",
-      },
-      description: {
-        en: "A modern web experience built with a strong visual identity, responsive layouts, and attention to detail.",
-        fa: "یک تجربه وب مدرن با هویت بصری قدرتمند، طراحی واکنش‌گرا و توجه به جزئیات.",
-      },
-      image: "/images/screenshoot.jpg",
-      href: "https://rockstar-app-5wjg.vercel.app/",
-      tags: ["Next.js", "React", "Tailwind CSS"],
-    },
-    {
-      number: "02",
-      title: "Project Two",
-      category: {
-        en: "Web Design",
-        fa: "طراحی وب",
-      },
-      description: {
-        en: "A clean and modern website concept focused on usability, visual consistency, and responsive design.",
-        fa: "طرحی مدرن و مینیمال با تمرکز بر کاربردپذیری، هماهنگی بصری و طراحی واکنش‌گرا.",
-      },
-      image: "/images/screenshoot2.jpg",
-      href: "https://portfoliogit-ten.vercel.app/",
-      tags: ["UI/UX", "Web Design", "Responsive"],
-    },
-    {
-      number: "03",
-      title: "Project Three",
-      category: {
-        en: "Brand Identity",
-        fa: "هویت بصری",
-      },
-      description: {
-        en: "A distinctive visual direction designed to create a consistent and memorable brand experience.",
-        fa: "هویتی بصری متمایز برای ساخت تجربه‌ای یکپارچه و ماندگار از برند.",
-      },
-      image: "/images/project-3.jpg",
-      href: "",
-      tags: ["Branding", "Visual Design", "Identity"],
-    },
-    {
-      number: "04",
-      title: "Project Four",
-      category: {
-        en: "Development",
-        fa: "توسعه وب",
-      },
-      description: {
-        en: "A responsive digital product built around performance, accessibility, and a smooth user experience.",
-        fa: "محصولی دیجیتال و واکنش‌گرا با تمرکز بر سرعت، دسترس‌پذیری و تجربه کاربری روان.",
-      },
-      image: "/images/project-4.jpg",
-      href: "",
-      tags: ["React", "Development", "Performance"],
     },
   ];
 
@@ -263,23 +254,6 @@ export default function Home() {
         },
       });
 
-      // PROJECT CARDS
-
-      gsap.from("[data-work-card]", {
-        y: 40,
-        opacity: 0,
-        scale: 0.97,
-        duration: 0.8,
-        stagger: 0.14,
-        ease: "power3.out",
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: "#works",
-          start: "top 78%",
-          once: true,
-        },
-      });
-
       // CONTACT
 
       gsap.from("[data-contact-content]", {
@@ -298,6 +272,42 @@ export default function Home() {
     {
       scope: pageRef,
       dependencies: [isRTL, lang],
+      revertOnUpdate: true,
+    }
+  );
+
+  // ==================== PROJECT CARD ANIMATIONS ====================
+
+  useGSAP(
+    () => {
+      if (projects.length === 0) return;
+
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (reduceMotion) return;
+
+      gsap.from("[data-work-card]", {
+        y: 40,
+        opacity: 0,
+        scale: 0.97,
+        duration: 0.8,
+        stagger: 0.14,
+        ease: "power3.out",
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: "#works",
+          start: "top 78%",
+          once: true,
+        },
+      });
+
+      ScrollTrigger.refresh();
+    },
+    {
+      scope: pageRef,
+      dependencies: [projects.length],
       revertOnUpdate: true,
     }
   );
@@ -715,120 +725,149 @@ export default function Home() {
           {/* PROJECT GRID */}
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-7">
-            {projects.map((project) => {
-              const projectContent = (
-                <>
-                  {/* IMAGE CARD */}
+            {projectsLoading ? (
+              <p className="col-span-full py-12 text-center text-white/50">
+                {isFa
+                  ? "در حال بارگذاری پروژه‌ها..."
+                  : "Loading projects..."}
+              </p>
+            ) : projectsError ? (
+              <div className="col-span-full py-12 text-center">
+                <p className="text-white/60">
+                  {isFa
+                    ? "دریافت پروژه‌ها ناموفق بود. مطمئن شوید بک‌اند در حال اجراست."
+                    : "Failed to load projects. Make sure the backend is running."}
+                </p>
 
-                  <div className="relative isolate aspect-[4/3] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#101010] transition-all duration-500 group-hover:-translate-y-1 group-hover:border-orange-500 group-hover:shadow-[0_24px_70px_rgba(0,0,0,0.45),0_0_35px_rgba(249,115,22,0.08)]">
-                    {/* BACKGROUND */}
+                <button
+                  type="button"
+                  onClick={() => setRetryCount((count) => count + 1)}
+                  className="mt-4 rounded-full border border-orange-500/40 px-5 py-2 text-sm text-orange-400 transition hover:bg-orange-500/10"
+                >
+                  {isFa ? "تلاش مجدد" : "Try again"}
+                </button>
+              </div>
+            ) : projects.length === 0 ? (
+              <p className="col-span-full py-12 text-center text-white/50">
+                {isFa
+                  ? "پروژه‌ای برای نمایش وجود ندارد."
+                  : "No projects available."}
+              </p>
+            ) : (
+              projects.map((project) => {
+                const projectContent = (
+                  <>
+                    {/* IMAGE CARD */}
 
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#20160f] via-[#111111] to-[#080808]" />
+                    <div className="relative isolate aspect-[4/3] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#101010] transition-all duration-500 group-hover:-translate-y-1 group-hover:border-orange-500 group-hover:shadow-[0_24px_70px_rgba(0,0,0,0.45),0_0_35px_rgba(249,115,22,0.08)]">
+                      {/* BACKGROUND */}
 
-                    {/* PROJECT IMAGE */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#20160f] via-[#111111] to-[#080808]" />
 
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      loading="lazy"
-                      onError={(event) => {
-                        event.currentTarget.style.display = "none";
-                      }}
-                      className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
+                      {/* PROJECT IMAGE */}
 
-                    {/* IMAGE OVERLAY */}
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        loading="lazy"
+                        onError={(event) => {
+                          event.currentTarget.style.display = "none";
+                        }}
+                        className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-75" />
+                      {/* IMAGE OVERLAY */}
 
-                    {/* TOP LABEL */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-75" />
 
-                    <div className="absolute inset-x-5 top-5 flex items-center justify-between sm:inset-x-7 sm:top-7">
-                      <span className="rounded-full border border-white/15 bg-black/40 px-3 py-2 text-[10px] font-semibold tracking-[0.2em] text-white/80 backdrop-blur-md">
-                        PROJECT / {project.number}
-                      </span>
+                      {/* TOP LABEL */}
 
-                      <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/30 text-lg text-white transition-all duration-500 group-hover:rotate-45 group-hover:border-orange-500 group-hover:bg-orange-500 group-hover:text-black">
-                        {isRTL ? "↖" : "↗"}
-                      </span>
-                    </div>
+                      <div className="absolute inset-x-5 top-5 flex items-center justify-between sm:inset-x-7 sm:top-7">
+                        <span className="rounded-full border border-white/15 bg-black/40 px-3 py-2 text-[10px] font-semibold tracking-[0.2em] text-white/80 backdrop-blur-md">
+                          PROJECT / {project.number}
+                        </span>
 
-                    {/* BOTTOM IMAGE LABEL */}
-
-                    <div className="absolute inset-x-5 bottom-5 sm:inset-x-7 sm:bottom-7">
-                      <span className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-black/50 px-3 py-2 text-[10px] font-bold tracking-[0.15em] text-orange-300 backdrop-blur-md">
-                        <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                        {project.category[isFa ? "fa" : "en"]}
-                      </span>
-                    </div>
-
-                    {/* HOVER BORDER */}
-
-                    <div className="pointer-events-none absolute inset-3 rounded-xl border border-white/0 transition-colors duration-500 group-hover:border-orange-400/30" />
-                  </div>
-
-                  {/* PROJECT INFORMATION */}
-
-                  <div className="px-1 pb-2 pt-6 sm:pt-7">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="min-w-0">
-                        <h3 className="text-2xl font-bold tracking-tight text-white transition-colors duration-300 group-hover:text-orange-400 sm:text-3xl">
-                          {project.title}
-                        </h3>
-
-                        <p className="mt-3 max-w-lg text-sm leading-7 text-white/45 transition-colors duration-300 group-hover:text-white/65">
-                          {project.description[isFa ? "fa" : "en"]}
-                        </p>
+                        <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/30 text-lg text-white transition-all duration-500 group-hover:rotate-45 group-hover:border-orange-500 group-hover:bg-orange-500 group-hover:text-black">
+                          {isRTL ? "↖" : "↗"}
+                        </span>
                       </div>
 
-                      <span className="mt-1 shrink-0 text-xl text-orange-500 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
-                        {isRTL ? "↖" : "↗"}
-                      </span>
-                    </div>
+                      {/* BOTTOM IMAGE LABEL */}
 
-                    {/* TECHNOLOGY TAGS */}
-
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[10px] font-medium tracking-wide text-white/45 transition-colors duration-300 group-hover:border-orange-500/20 group-hover:text-white/65"
-                        >
-                          {tag}
+                      <div className="absolute inset-x-5 bottom-5 sm:inset-x-7 sm:bottom-7">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-black/50 px-3 py-2 text-[10px] font-bold tracking-[0.15em] text-orange-300 backdrop-blur-md">
+                          <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                          {project.category[isFa ? "fa" : "en"]}
                         </span>
-                      ))}
+                      </div>
+
+                      {/* HOVER BORDER */}
+
+                      <div className="pointer-events-none absolute inset-3 rounded-xl border border-white/0 transition-colors duration-500 group-hover:border-orange-400/30" />
                     </div>
 
-                    <div className="mt-6 h-px w-full origin-right bg-white/[0.08]">
-                    </div>
-                  </div>
-                </>
-              );
+                    {/* PROJECT INFORMATION */}
 
-              return (
-                <article
-                  key={project.number}
-                  data-work-card
-                  className="group min-w-0"
-                >
-                  {project.href ? (
-                    <a
-                      href={project.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${isFa ? "مشاهده پروژه" : "View project"}: ${project.title}`}
-                      className="block h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-4 focus-visible:ring-offset-[#080808]"
-                    >
-                      {projectContent}
-                    </a>
-                  ) : (
-                    <div className="block h-full rounded-2xl">
-                      {projectContent}
+                    <div className="px-1 pb-2 pt-6 sm:pt-7">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0">
+                          <h3 className="text-2xl font-bold tracking-tight text-white transition-colors duration-300 group-hover:text-orange-400 sm:text-3xl">
+                            {project.title}
+                          </h3>
+
+                          <p className="mt-3 max-w-lg text-sm leading-7 text-white/45 transition-colors duration-300 group-hover:text-white/65">
+                            {project.description[isFa ? "fa" : "en"]}
+                          </p>
+                        </div>
+
+                        <span className="mt-1 shrink-0 text-xl text-orange-500 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
+                          {isRTL ? "↖" : "↗"}
+                        </span>
+                      </div>
+
+                      {/* TECHNOLOGY TAGS */}
+
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {project.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[10px] font-medium tracking-wide text-white/45 transition-colors duration-300 group-hover:border-orange-500/20 group-hover:text-white/65"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="mt-6 h-px w-full origin-right bg-white/[0.08]" />
                     </div>
-                  )}
-                </article>
-              );
-            })}
+                  </>
+                );
+
+                return (
+                  <article
+                    key={project.number}
+                    data-work-card
+                    className="group min-w-0"
+                  >
+                    {project.href ? (
+                      <a
+                        href={project.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${isFa ? "مشاهده پروژه" : "View project"}: ${project.title}`}
+                        className="block h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-4 focus-visible:ring-offset-[#080808]"
+                      >
+                        {projectContent}
+                      </a>
+                    ) : (
+                      <div className="block h-full rounded-2xl">
+                        {projectContent}
+                      </div>
+                    )}
+                  </article>
+                );
+              })
+            )}
           </div>
 
           {/* SECTION FOOTNOTE */}
@@ -899,9 +938,7 @@ export default function Home() {
             </span>
           </a>
 
-          <p className="mt-6 text-sm text-white/30">
-            hello@example.com
-          </p>
+          <p className="mt-6 text-sm text-white/30">hello@example.com</p>
         </div>
       </section>
 
