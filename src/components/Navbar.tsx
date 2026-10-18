@@ -113,7 +113,7 @@ export default function Navbar() {
           onClick={(event) => handleNavigation(event, "#home")}
           className="shrink-0 text-xl font-black tracking-wider text-white"
         >
-          MY<span className="text-orange-500">.</span>STUDIO
+          ERIC<span className="text-orange-500">.</span>DILANCHIAN
         </a>
 
         {/* Desktop Navigation */}

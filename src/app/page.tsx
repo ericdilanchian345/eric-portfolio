@@ -9,6 +9,16 @@ import { useLanguage } from "@/context/LanguageContext";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
+// ==================== CONTACT INFORMATION ====================
+
+const CONTACT_INFO = {
+  instagram: "https://www.instagram.com/eric_dilanchian/",
+  whatsapp: "09219818424",
+  email: "ericdilanchian345@gmail.com",
+};
+
+// ==================== TYPES ====================
+
 type LocalizedText = {
   en: string;
   fa: string;
@@ -137,7 +147,7 @@ export default function Home() {
   useGSAP(
     () => {
       const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
+        "(prefers-reduced-motion: reduce)",
       ).matches;
 
       if (reduceMotion) return;
@@ -163,7 +173,7 @@ export default function Home() {
             opacity: 0,
             duration: 0.8,
           },
-          "-=0.25"
+          "-=0.25",
         )
         .from(
           "[data-hero-description]",
@@ -172,7 +182,7 @@ export default function Home() {
             opacity: 0,
             duration: 0.6,
           },
-          "-=0.4"
+          "-=0.4",
         )
         .from(
           "[data-hero-actions]",
@@ -181,7 +191,7 @@ export default function Home() {
             opacity: 0,
             duration: 0.6,
           },
-          "-=0.3"
+          "-=0.3",
         )
         .from(
           "[data-hero-stats]",
@@ -190,7 +200,7 @@ export default function Home() {
             opacity: 0,
             duration: 0.5,
           },
-          "-=0.3"
+          "-=0.3",
         )
         .from(
           "[data-hero-visual]",
@@ -200,7 +210,7 @@ export default function Home() {
             scale: 0.96,
             duration: 0.8,
           },
-          "-=0.7"
+          "-=0.7",
         );
 
       // SECTION HEADINGS
@@ -268,12 +278,28 @@ export default function Home() {
           once: true,
         },
       });
+
+      // CONTACT CARDS
+
+      gsap.from("[data-contact-card]", {
+        y: 25,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: "power3.out",
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: "#contact-cards",
+          start: "top 85%",
+          once: true,
+        },
+      });
     },
     {
       scope: pageRef,
       dependencies: [isRTL, lang],
       revertOnUpdate: true,
-    }
+    },
   );
 
   // ==================== PROJECT CARD ANIMATIONS ====================
@@ -283,7 +309,7 @@ export default function Home() {
       if (projects.length === 0) return;
 
       const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
+        "(prefers-reduced-motion: reduce)",
       ).matches;
 
       if (reduceMotion) return;
@@ -309,8 +335,98 @@ export default function Home() {
       scope: pageRef,
       dependencies: [projects.length],
       revertOnUpdate: true,
-    }
+    },
   );
+
+  // ==================== CONTACT LINKS ====================
+
+  const whatsappNumber = CONTACT_INFO.whatsapp.replace(/\D/g, "");
+
+  const contactCards = [
+    {
+      id: "instagram",
+      label: "SOCIAL MEDIA",
+      title: "Instagram",
+      description: isFa
+        ? "نمونه‌کارها، پروژه‌ها و دنیای خلاقیت من را در اینستاگرام دنبال کن."
+        : "Explore my projects, portfolio, and creative world on Instagram.",
+      action: isFa ? "مشاهده صفحه" : "Visit Profile",
+      href: CONTACT_INFO.instagram,
+      external: true,
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          className="h-7 w-7"
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle
+            cx="18"
+            cy="6"
+            r="1"
+            fill="currentColor"
+            stroke="none"
+          />
+        </svg>
+      ),
+    },
+    {
+      id: "whatsapp",
+      label: "DIRECT MESSAGE",
+      title: "WhatsApp",
+      description: isFa
+        ? "مستقیم به من پیام بده و درباره ایده یا پروژه‌ات صحبت کنیم."
+        : "Send me a direct message and let's discuss your ideas and projects.",
+      action: isFa ? "شروع گفتگو" : "Start a Chat",
+      href: `https://wa.me/${whatsappNumber}`,
+      external: true,
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-7 w-7"
+          aria-hidden="true"
+        >
+          <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z" />
+          <path d="M9 9a5 5 0 0 0 6 6" />
+        </svg>
+      ),
+    },
+    {
+      id: "email",
+      label: "EMAIL CONTACT",
+      title: "Email",
+      description: isFa
+        ? "برای همکاری، پیشنهاد یا دریافت اطلاعات بیشتر برایم ایمیل بفرست."
+        : "Email me about collaborations, project inquiries, or more information.",
+      action: isFa ? "ارسال ایمیل" : "Send an Email",
+      href: `mailto:${CONTACT_INFO.email}`,
+      external: false,
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-7 w-7"
+          aria-hidden="true"
+        >
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 7 9 6 9-6" />
+        </svg>
+      ),
+    },
+  ];
 
   return (
     <main
@@ -448,10 +564,7 @@ export default function Home() {
 
           {/* HERO PORTRAIT */}
 
-          <div
-            data-hero-visual
-            className="relative mx-auto w-full max-w-lg"
-          >
+          <div data-hero-visual className="relative mx-auto w-full max-w-lg">
             <div className="absolute inset-10 rounded-full bg-orange-500/15 blur-[90px]" />
 
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/10 bg-[#111111] shadow-2xl shadow-orange-950/20">
@@ -463,57 +576,23 @@ export default function Home() {
 
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
 
-              <div className="absolute inset-x-6 top-6 flex items-start justify-between sm:inset-x-8 sm:top-8">
-                <div>
-                  <p className="text-xs font-semibold tracking-[0.25em] text-white/80">
-                    MY.STUDIO
-                  </p>
-                  <p className="mt-2 text-xs text-white/60">
-                    {isFa ? "خلاقیت بدون مرز" : "CREATIVITY UNLIMITED"}
-                  </p>
-                </div>
-
-                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-orange-500/50 bg-black/20 text-xl text-orange-400 backdrop-blur-md">
-                  ✳
-                </div>
-              </div>
-
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
                 <div className="mb-5 h-px w-full bg-white/20" />
 
                 <div className="flex items-end justify-between gap-4">
                   <div>
                     <p className="text-xl font-bold text-white sm:text-2xl">
-                      {isFa ? "ایده. طراحی. اجرا." : "IDEA. DESIGN. BUILD."}
+                      {isFa ? "اریک دیلانچیان" : "Eric Dilanchian"}
                     </p>
 
                     <p className="mt-2 text-sm text-white/60">
                       {isFa
-                        ? "ساختن آینده دیجیتال"
-                        : "Building the digital future"}
+                        ? "طراح وب‌سایت و توسعه‌دهنده وب"
+                        : "Web Developer & Website Designer"}
                     </p>
                   </div>
 
                   <span className="text-3xl text-orange-500">↗</span>
-                </div>
-              </div>
-            </div>
-
-            {/* FLOATING INFO */}
-
-            <div className="absolute -bottom-5 -left-3 rounded-2xl border border-white/10 bg-[#111111]/95 px-4 py-4 shadow-2xl backdrop-blur-md sm:-left-5 sm:px-5">
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/10 text-lg text-orange-500">
-                  ✦
-                </span>
-
-                <div>
-                  <p className="text-sm font-bold text-white">
-                    {isFa ? "طراحی خلاقانه" : "Creative Design"}
-                  </p>
-                  <p className="mt-1 text-xs text-white/40">
-                    {isFa ? "با نگاهی متفاوت" : "A different perspective"}
-                  </p>
                 </div>
               </div>
             </div>
@@ -566,10 +645,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <div
-            data-about-content
-            className="flex flex-col justify-center"
-          >
+          <div data-about-content className="flex flex-col justify-center">
             <p className="text-lg leading-9 text-white/60 sm:text-xl sm:leading-10">
               {isFa
                 ? "ما معتقدیم هر ایده بزرگ، شایسته یک اجرای متفاوت است. در MY.STUDIO، طراحی خلاقانه و فناوری مدرن را کنار هم قرار می‌دهیم تا تجربه‌هایی بسازیم که دیده شوند و در ذهن بمانند."
@@ -727,9 +803,7 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-7">
             {projectsLoading ? (
               <p className="col-span-full py-12 text-center text-white/50">
-                {isFa
-                  ? "در حال بارگذاری پروژه‌ها..."
-                  : "Loading projects..."}
+                {isFa ? "در حال بارگذاری پروژه‌ها..." : "Loading projects..."}
               </p>
             ) : projectsError ? (
               <div className="col-span-full py-12 text-center">
@@ -760,11 +834,7 @@ export default function Home() {
                     {/* IMAGE CARD */}
 
                     <div className="relative isolate aspect-[4/3] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#101010] transition-all duration-500 group-hover:-translate-y-1 group-hover:border-orange-500 group-hover:shadow-[0_24px_70px_rgba(0,0,0,0.45),0_0_35px_rgba(249,115,22,0.08)]">
-                      {/* BACKGROUND */}
-
                       <div className="absolute inset-0 bg-gradient-to-br from-[#20160f] via-[#111111] to-[#080808]" />
-
-                      {/* PROJECT IMAGE */}
 
                       <img
                         src={project.image}
@@ -776,11 +846,7 @@ export default function Home() {
                         className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                       />
 
-                      {/* IMAGE OVERLAY */}
-
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-75" />
-
-                      {/* TOP LABEL */}
 
                       <div className="absolute inset-x-5 top-5 flex items-center justify-between sm:inset-x-7 sm:top-7">
                         <span className="rounded-full border border-white/15 bg-black/40 px-3 py-2 text-[10px] font-semibold tracking-[0.2em] text-white/80 backdrop-blur-md">
@@ -792,16 +858,12 @@ export default function Home() {
                         </span>
                       </div>
 
-                      {/* BOTTOM IMAGE LABEL */}
-
                       <div className="absolute inset-x-5 bottom-5 sm:inset-x-7 sm:bottom-7">
                         <span className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-black/50 px-3 py-2 text-[10px] font-bold tracking-[0.15em] text-orange-300 backdrop-blur-md">
                           <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
                           {project.category[isFa ? "fa" : "en"]}
                         </span>
                       </div>
-
-                      {/* HOVER BORDER */}
 
                       <div className="pointer-events-none absolute inset-3 rounded-xl border border-white/0 transition-colors duration-500 group-hover:border-orange-400/30" />
                     </div>
@@ -888,57 +950,161 @@ export default function Home() {
 
       <section
         id="contact"
-        className="relative overflow-hidden border-t border-white/[0.06] px-5 py-28 sm:px-8 sm:py-36 lg:px-12"
+        className="relative isolate overflow-hidden border-t border-white/[0.06] bg-[#080808] px-5 py-28 sm:px-8 sm:py-36 lg:px-12"
       >
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500/[0.08] blur-[120px]" />
+        {/* BACKGROUND LIGHTING */}
+
+        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500/[0.08] blur-[150px]" />
+
+          <div className="absolute -right-40 top-0 h-80 w-80 rounded-full bg-orange-600/[0.05] blur-[120px]" />
+
+          <div
+            className="absolute inset-0 opacity-[0.025]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)",
+              backgroundSize: "72px 72px",
+            }}
+          />
+        </div>
 
         <div
           data-contact-content
-          className="relative mx-auto max-w-5xl text-center"
+          className="relative mx-auto max-w-6xl"
         >
-          <p className="mb-8 inline-flex items-center gap-3 text-xs font-bold tracking-[0.2em] text-orange-500">
-            <span className="h-px w-8 bg-orange-500" />
-            {isFa ? "بیایید صحبت کنیم" : "LET'S CONNECT"}
-            <span className="h-px w-8 bg-orange-500" />
-          </p>
+          {/* SECTION HEADER */}
 
-          <h2
-            data-section-heading
-            className="text-4xl font-black leading-tight sm:text-6xl lg:text-8xl"
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="mb-8 inline-flex items-center gap-3 text-xs font-bold tracking-[0.2em] text-orange-500">
+              <span className="h-px w-8 bg-orange-500" />
+
+              {isFa ? "بیایید صحبت کنیم" : "LET'S CONNECT"}
+
+              <span className="h-px w-8 bg-orange-500" />
+            </p>
+
+            <h2
+              data-section-heading
+              className="text-4xl font-black leading-tight tracking-tight sm:text-6xl lg:text-8xl"
+            >
+              {isFa ? (
+                <>
+                  ایده‌ای در ذهن داری؟
+                  <br />
+                  <span className="text-orange-500">
+                    با هم بسازیمش.
+                  </span>
+                </>
+              ) : (
+                <>
+                  Have an idea?
+                  <br />
+                  <span className="text-orange-500">
+                    Let&apos;s build it.
+                  </span>
+                </>
+              )}
+            </h2>
+
+            <p className="mx-auto mt-8 max-w-2xl text-base leading-8 text-white/50 sm:text-lg sm:leading-9">
+              {isFa
+                ? "درباره ایده‌ات با من صحبت کن. از طراحی وب‌سایت تا توسعه پروژه‌های دیجیتال، آماده شروع یک همکاری تازه هستم."
+                : "Tell me about your idea. From website design to digital development, I'm ready to start something great together."}
+            </p>
+          </div>
+
+          {/* CONTACT CARDS */}
+
+          <div
+            id="contact-cards"
+            className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
           >
-            {isFa ? (
-              <>
-                ایده‌ای در ذهن داری؟
-                <br />
-                <span className="text-orange-500">با هم بسازیمش.</span>
-              </>
-            ) : (
-              <>
-                Have an idea?
-                <br />
-                <span className="text-orange-500">Let&apos;s build it.</span>
-              </>
-            )}
-          </h2>
+            {contactCards.map((contact) => (
+              <a
+                key={contact.id}
+                data-contact-card
+                href={contact.href}
+                target={contact.external ? "_blank" : undefined}
+                rel={
+                  contact.external
+                    ? "noopener noreferrer"
+                    : undefined
+                }
+                aria-label={`${contact.title}: ${contact.action}`}
+                className="group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-white/[0.025] p-7 text-start outline-none transition-all duration-500 hover:-translate-y-2 hover:border-orange-500/40 hover:bg-white/[0.045] hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)] focus-visible:ring-2 focus-visible:ring-orange-500 sm:p-8"
+              >
+                {/* CARD GLOW */}
 
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-8 text-white/50 sm:text-lg sm:leading-9">
-            {isFa
-              ? "درباره ایده‌ات با من صحبت کن. شاید شروع یک همکاری فوق‌العاده همین‌جا باشد."
-              : "Tell me about your idea. Your next great digital project could start right here."}
-          </p>
+                <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-orange-500/[0.04] blur-3xl transition duration-500 group-hover:bg-orange-500/[0.12]" />
 
-          <a
-            href="mailto:hello@example.com"
-            className="group mt-10 inline-flex items-center gap-4 rounded-full bg-orange-500 px-8 py-5 text-sm font-bold text-black transition duration-300 hover:bg-orange-400 hover:shadow-[0_0_35px_rgba(249,115,22,0.2)]"
-          >
-            {isFa ? "برای من ایمیل بفرست" : "Send Me an Email"}
+                <div className="relative flex flex-1 flex-col">
+                  {/* ICON */}
 
-            <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
-              {isRTL ? "←" : "→"}
-            </span>
-          </a>
+                  <div className="flex items-start justify-between">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-orange-500/20 bg-orange-500/[0.08] text-orange-500 transition-all duration-500 group-hover:scale-110 group-hover:bg-orange-500 group-hover:text-black">
+                      {contact.icon}
+                    </div>
 
-          <p className="mt-6 text-sm text-white/30">hello@example.com</p>
+                    <span className="text-xl text-white/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-orange-500">
+                      {isRTL ? "↖" : "↗"}
+                    </span>
+                  </div>
+
+                  {/* TEXT */}
+
+                  <p className="mt-8 text-[10px] font-bold tracking-[0.2em] text-orange-500 sm:text-xs">
+                    {contact.label}
+                  </p>
+
+                  <h3 className="mt-3 text-2xl font-bold text-white">
+                    {contact.title}
+                  </h3>
+
+                  <p className="mt-3 flex-1 text-sm leading-7 text-white/40 transition-colors duration-300 group-hover:text-white/60">
+                    {contact.description}
+                  </p>
+
+                  {/* CARD FOOTER */}
+
+                  <div className="mt-7 flex items-center justify-between gap-3 border-t border-white/[0.08] pt-5">
+                    <span className="text-sm font-semibold text-white/70 transition-colors duration-300 group-hover:text-orange-400">
+                      {contact.action}
+                    </span>
+
+                    <span className="shrink-0 text-sm text-orange-500 transition-transform duration-300 group-hover:translate-x-1">
+                      {isRTL ? "←" : "→"}
+                    </span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* BOTTOM CTA */}
+
+          <div className="mt-16 text-center sm:mt-20">
+            <p className="text-sm leading-7 text-white/35">
+              {isFa
+                ? "راه ارتباطی مورد علاقه‌ات را انتخاب کن؛ منتظر شنیدن ایده‌ات هستم."
+                : "Choose your preferred way to connect. I'd love to hear your idea."}
+            </p>
+
+            <a
+              href={`mailto:${CONTACT_INFO.email}`}
+              className="group mt-7 inline-flex items-center gap-4 rounded-full bg-orange-500 px-8 py-5 text-sm font-bold text-black transition-all duration-300 hover:-translate-y-1 hover:bg-orange-400 hover:shadow-[0_0_35px_rgba(249,115,22,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-4 focus-visible:ring-offset-[#080808]"
+            >
+              {isFa ? "برای من ایمیل بفرست" : "Send Me an Email"}
+
+              <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
+                {isRTL ? "←" : "→"}
+              </span>
+            </a>
+
+            <p className="mt-6 break-all text-sm text-white/30">
+              {CONTACT_INFO.email}
+            </p>
+          </div>
         </div>
       </section>
 
