@@ -56,11 +56,9 @@ export default function Home() {
       setProjectsError(false);
 
       try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050";
+        
 
-        const response = await fetch(`${apiUrl}/api/projects`);
-
+         const response = await fetch("/api/projects");
         if (!response.ok) {
           throw new Error(`API request failed: ${response.status}`);
         }

@@ -1,20 +1,26 @@
-const API_URL = "http://localhost:5050";
-
 export interface Project {
-  id: number;
+  number: string;
   title: string;
-  description: string;
-  technologies: string[];
-  url: string;
+  category: {
+    en: string;
+    fa: string;
+  };
+  description: {
+    en: string;
+    fa: string;
+  };
+  image: string;
+  href: string;
+  tags: string[];
 }
 
 export async function getProjects(): Promise<Project[]> {
-  const response = await fetch(`${API_URL}/api/projects`, {
+  const response = await fetch("/api/projects", {
     cache: "no-store",
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch projects from ASP.NET Core API");
+    throw new Error("Failed to fetch projects");
   }
 
   return response.json();
