@@ -579,7 +579,7 @@ export default function Home() {
 
                 <div className="flex items-end justify-between gap-4">
                   <div>
-                    <p className="text-xl font-bold text-white sm:text-2xl">
+                    <p className="text-xl font-normal text-white sm:text-2xl">
                       {isFa ? "اریک دیلانچیان" : "Eric Dilanchian"}
                     </p>
 
@@ -620,11 +620,10 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-2 lg:gap-24">
           <div data-about-content>
             <p className="mb-6 flex items-center gap-3 text-xs font-bold tracking-[0.2em] text-orange-500">
-              <span className="h-px w-8 bg-orange-500" />
               {isFa ? "درباره ما" : "ABOUT US"}
             </p>
 
-            <h2 className="max-w-xl text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
+            <h2 className="max-w-xl text-4xl font-normal leading-tight sm:text-5xl lg:text-6xl">
               {isFa ? (
                 <>
                   خلاقیت در کنار
@@ -683,7 +682,7 @@ export default function Home() {
 
               <h2
                 data-section-heading
-                className="text-4xl font-black sm:text-5xl lg:text-6xl"
+                className="text-4xl font-normal sm:text-5xl lg:text-6xl"
               >
                 {isFa ? (
                   <>
@@ -706,7 +705,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.08] sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.08]  sm:grid-cols-2">
             {services.map((service) => (
               <article
                 key={service.number}
@@ -773,7 +772,7 @@ export default function Home() {
 
               <h2
                 data-section-heading
-                className="text-4xl font-black tracking-tight sm:text-5xl lg:text-7xl"
+                className="text-4xl font-normal tracking-tight sm:text-5xl lg:text-7xl"
               >
                 {isFa ? (
                   <>
@@ -984,7 +983,7 @@ export default function Home() {
 
             <h2
               data-section-heading
-              className="text-4xl font-black leading-tight tracking-tight sm:text-6xl lg:text-8xl"
+              className="text-4xl font-normal leading-tight tracking-tight sm:text-7xl lg:text-7xl"
             >
               {isFa ? (
                 <>
@@ -1108,27 +1107,39 @@ export default function Home() {
 
       {/* ==================== FOOTER ==================== */}
 
-      <footer className="border-t border-white/[0.08] px-5 py-8 sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 sm:flex-row">
-          <a
-            href="#home"
-            className="text-xl font-black tracking-wider text-white"
-          >
-            MY<span className="text-orange-500">.</span>STUDIO
-          </a>
+      
+<footer className="border-t border-white/[0.08] px-5 py-8 sm:px-8 lg:px-12">
+  <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 sm:flex-row">
+    <a
+      href="#home"
+      className={`text-xl font-black text-white ${
+        isFa ? "tracking-normal" : "tracking-wider"
+      }`}
+    >
+      {isFa ? (
+        <>
+          اریک<span className="text-orange-500">.</span>دیلانچیان
+        </>
+      ) : (
+        <>
+          Eric<span className="text-orange-500">.</span>Dilanchian
+        </>
+      )}
+    </a>
 
-          <p className="text-center text-xs leading-6 text-white/35">
-            {isFa
-              ? "طراحی و توسعه با خلاقیت و دقت."
-              : "Designed and built with creativity and care."}
-          </p>
+    <p className="text-center text-xs leading-6 text-white/35">
+      {isFa
+        ? "طراحی و توسعه با خلاقیت و دقت."
+        : "Designed and built with creativity and care."}
+    </p>
 
-          <p className="text-xs text-white/35">
-            © 2026 MY.STUDIO.{" "}
-            {isFa ? "تمام حقوق محفوظ است." : "All rights reserved."}
-          </p>
-        </div>
-      </footer>
+    <p className="text-xs text-white/35">
+      © 2026 {isFa ? "اریک دیلانچیان" : "Eric Dilanchian"}.{" "}
+      {isFa ? "تمام حقوق محفوظ است." : "All rights reserved."}
+    </p>
+  </div>
+</footer>
+
     </main>
   );
 }

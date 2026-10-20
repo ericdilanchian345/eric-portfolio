@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rockstar Studio",
+  title: "EricDilanchian.com",
   description: "Creative portfolio",
 };
 

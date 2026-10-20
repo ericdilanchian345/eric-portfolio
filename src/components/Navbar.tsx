@@ -107,14 +107,27 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
+       
         {/* Logo */}
         <a
           href="#home"
           onClick={(event) => handleNavigation(event, "#home")}
-          className="shrink-0 text-xl font-black tracking-wider text-white"
+          className={`shrink-0 text-xl font-normal text-white ${
+            isRTL ? "tracking-normal" : "tracking-wider"
+          }`}
+          aria-label={isRTL ? "صفحه اصلی اریک دیلانچیان" : "Eric Dilanchian Home"}
         >
-          ERIC<span className="text-orange-500">.</span>DILANCHIAN
+          {isRTL ? (
+            <>
+              اریک<span className="text-orange-500">.</span>دیلانچیان
+            </>
+          ) : (
+            <>
+              ERIC<span className="text-orange-500">.</span>DILANCHIAN
+            </>
+          )}
         </a>
+
 
         {/* Desktop Navigation */}
         <ul className="hidden items-center gap-8 md:flex">
