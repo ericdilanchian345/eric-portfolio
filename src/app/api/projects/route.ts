@@ -42,8 +42,8 @@ const projects = [
       en: "A distinctive visual direction designed to create a consistent and memorable brand experience.",
       fa: "هویتی بصری متمایز برای ساخت تجربه‌ای یکپارچه و ماندگار از برند.",
     },
-    image: "/images/project-3.jpg",
-    href: "",
+    image: "/images/screenshoot3.jpg",
+    href: "https://shop-app-five-woad.vercel.app/",
     tags: ["Branding", "Visual Design", "Identity"],
   },
   {
