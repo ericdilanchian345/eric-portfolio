@@ -459,16 +459,7 @@ export default function Home() {
           {/* HERO TEXT */}
 
           <div>
-            <div
-              data-hero-badge
-              className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2"
-            >
-              <span className="h-2 w-2 animate-pulse rounded-full bg-orange-500" />
-
-              <span className="text-xs font-medium tracking-[0.15em] text-white/60">
-                {isFa ? "استودیوی خلاق دیجیتال" : "CREATIVE DIGITAL STUDIO"}
-              </span>
-            </div>
+            
 
             <h1
               data-hero-title
@@ -498,7 +489,7 @@ export default function Home() {
               className="mt-8 max-w-xl text-base leading-8 text-white/50 sm:text-lg sm:leading-9"
             >
               {isFa
-                ? "ایده‌های شما را به تجربه‌های دیجیتال جذاب تبدیل می‌کنیم؛ با طراحی خلاقانه، فناوری مدرن و توجه به جزئیات."
+                ? "ایده‌های شما را به تجربه‌های دیجیتال جذاب تبدیل می‌کنم؛ با طراحی خلاقانه، فناوری مدرن و توجه به جزئیات."
                 : "We turn your ideas into meaningful digital experiences through creative design, modern technology, and attention to every detail."}
             </p>
 
@@ -512,9 +503,7 @@ export default function Home() {
               >
                 {isFa ? "مشاهده نمونه‌کارها" : "Explore Our Work"}
 
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  {isRTL ? "←" : "→"}
-                </span>
+                
               </a>
 
               <a
@@ -527,37 +516,7 @@ export default function Home() {
 
             {/* STATS */}
 
-            <div
-              data-hero-stats
-              className="mt-16 grid max-w-lg grid-cols-3 gap-5 border-t border-white/10 pt-8"
-            >
-              <div>
-                <p className="text-3xl font-black sm:text-4xl">
-                  03<span className="text-orange-500">+</span>
-                </p>
-                <p className="mt-2 text-xs leading-6 text-white/40 sm:text-sm">
-                  {isFa ? "سال تجربه" : "Years Experience"}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-3xl font-black sm:text-4xl">
-                  20<span className="text-orange-500">+</span>
-                </p>
-                <p className="mt-2 text-xs leading-6 text-white/40 sm:text-sm">
-                  {isFa ? "پروژه تکمیل‌شده" : "Projects Completed"}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-3xl font-black sm:text-4xl">
-                  100<span className="text-orange-500">%</span>
-                </p>
-                <p className="mt-2 text-xs leading-6 text-white/40 sm:text-sm">
-                  {isFa ? "تعهد به کیفیت" : "Quality Focus"}
-                </p>
-              </div>
-            </div>
+            
           </div>
 
           {/* HERO PORTRAIT */}
@@ -575,7 +534,6 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
 
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                <div className="mb-5 h-px w-full bg-white/20" />
 
                 <div className="flex items-end justify-between gap-4">
                   <div>
@@ -619,8 +577,8 @@ export default function Home() {
       >
         <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-2 lg:gap-24">
           <div data-about-content>
-            <p className="mb-6 flex items-center gap-3 text-xs font-bold tracking-[0.2em] text-orange-500">
-              {isFa ? "درباره ما" : "ABOUT US"}
+            <p className="mb-6 flex items-center gap-3 text-2xs font-bold tracking-[0.2em] text-orange-500">
+              {isFa ? "درباره من" : "ABOUT US"}
             </p>
 
             <h2 className="max-w-xl text-4xl font-normal leading-tight sm:text-5xl lg:text-6xl">
@@ -628,7 +586,7 @@ export default function Home() {
                 <>
                   خلاقیت در کنار
                   <br />
-                  <span className="text-white/40">فناوری.</span>
+                  <span className="text-orange-500">فناوری.</span>
                 </>
               ) : (
                 <>
@@ -645,13 +603,13 @@ export default function Home() {
           <div data-about-content className="flex flex-col justify-center">
             <p className="text-lg leading-9 text-white/60 sm:text-xl sm:leading-10">
               {isFa
-                ? "ما معتقدیم هر ایده بزرگ، شایسته یک اجرای متفاوت است. در MY.STUDIO، طراحی خلاقانه و فناوری مدرن را کنار هم قرار می‌دهیم تا تجربه‌هایی بسازیم که دیده شوند و در ذهن بمانند."
-                : "We believe every great idea deserves an exceptional execution. At MY.STUDIO, we combine creative thinking with modern technology to build digital experiences that stand out and stay memorable."}
+                ? "من معتقدم هر ایده بزرگ، شایسته یک اجرای متفاوت است. دروبسایت من طراحی خلاقانه و فناوری مدرن را کنار هم قرار می‌دهیم تا تجربه‌هایی بسازیم که دیده شوند و در ذهن بمانند."
+                : "I believe every great idea deserves an exceptional execution. At MY.STUDIO, we combine creative thinking with modern technology to build digital experiences that stand out and stay memorable."}
             </p>
 
             <p className="mt-6 leading-8 text-white/40">
               {isFa
-                ? "از اولین طرح تا آخرین جزئیات، هدف ما ساخت محصولاتی است که علاوه بر زیبایی، کاربردی، سریع و ماندگار باشند."
+                ? "از اولین طرح تا آخرین جزئیات، هدف من ساخت محصولاتی است که علاوه بر زیبایی، کاربردی، سریع و ماندگار باشند."
                 : "From the first sketch to the final detail, our goal is to create products that are not only beautiful, but also useful, fast, and memorable."}
             </p>
 
@@ -659,8 +617,8 @@ export default function Home() {
               href="#services"
               className="mt-8 inline-flex w-fit items-center gap-3 text-sm font-bold text-orange-500 transition hover:text-orange-400"
             >
-              {isFa ? "با خدمات ما آشنا شوید" : "Discover Our Services"}
-              <span>{isRTL ? "←" : "→"}</span>
+              {isFa ? "با خدمات من آشنا شوید" : "Discover Our Services"}
+             
             </a>
           </div>
         </div>
@@ -677,7 +635,7 @@ export default function Home() {
             <div>
               <p className="mb-6 flex items-center gap-3 text-xs font-bold tracking-[0.2em] text-orange-500">
                 <span className="h-px w-8 bg-orange-500" />
-                {isFa ? "خدمات ما" : "WHAT WE DO"}
+                {isFa ? "خدمات من" : "My Services"}
               </p>
 
               <h2
@@ -687,11 +645,11 @@ export default function Home() {
                 {isFa ? (
                   <>
                     چه کاری
-                    <span className="text-orange-500"> انجام می‌دهیم؟</span>
+                    <span className="text-orange-500"> انجام می‌دهم؟</span>
                   </>
                 ) : (
                   <>
-                    What we
+                    What i
                     <span className="text-orange-500"> do.</span>
                   </>
                 )}
@@ -700,7 +658,7 @@ export default function Home() {
 
             <p className="max-w-md leading-8 text-white/40">
               {isFa
-                ? "از ایده‌پردازی تا اجرا، برای ساختن تجربه‌ای کامل در کنار شما هستیم."
+                ? "از ایده‌پردازی تا اجرا، برای ساختن تجربه‌ای کامل در کنار شما هستم."
                 : "From the first idea to the final launch, we help bring your digital vision to life."}
             </p>
           </div>
@@ -713,13 +671,9 @@ export default function Home() {
                 className="group relative flex min-w-0 flex-col bg-[#0b0b0b] p-8 transition-colors duration-300 hover:bg-[#12100e] sm:p-10 lg:p-12"
               >
                 <div className="flex items-start justify-between">
-                  <span className="text-sm font-medium text-orange-500">
-                    / {service.number}
-                  </span>
+                  
 
-                  <span className="text-2xl text-white/30 transition duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-orange-500">
-                    {isRTL ? "↖" : "↗"}
-                  </span>
+                  
                 </div>
 
                 <h3 className="mt-12 break-words text-2xl font-bold sm:text-3xl">
@@ -767,7 +721,7 @@ export default function Home() {
             <div>
               <p className="mb-6 flex items-center gap-3 text-xs font-bold tracking-[0.2em] text-orange-500">
                 <span className="h-px w-8 bg-orange-500" />
-                {isFa ? "نمونه‌کارهای منتخب" : "SELECTED WORK"}
+                {isFa ? "نمونه‌کارهای من" : "MY WORKS"}
               </p>
 
               <h2
@@ -1043,9 +997,7 @@ export default function Home() {
                       {contact.icon}
                     </div>
 
-                    <span className="text-xl text-white/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-orange-500">
-                      {isRTL ? "↖" : "↗"}
-                    </span>
+                    
                   </div>
 
                   {/* TEXT */}
@@ -1080,28 +1032,7 @@ export default function Home() {
 
           {/* BOTTOM CTA */}
 
-          <div className="mt-16 text-center sm:mt-20">
-            <p className="text-sm leading-7 text-white/35">
-              {isFa
-                ? "راه ارتباطی مورد علاقه‌ات را انتخاب کن؛ منتظر شنیدن ایده‌ات هستم."
-                : "Choose your preferred way to connect. I'd love to hear your idea."}
-            </p>
-
-            <a
-              href={`mailto:${CONTACT_INFO.email}`}
-              className="group mt-7 inline-flex items-center gap-4 rounded-full bg-orange-500 px-8 py-5 text-sm font-bold text-black transition-all duration-300 hover:-translate-y-1 hover:bg-orange-400 hover:shadow-[0_0_35px_rgba(249,115,22,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-4 focus-visible:ring-offset-[#080808]"
-            >
-              {isFa ? "برای من ایمیل بفرست" : "Send Me an Email"}
-
-              <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
-                {isRTL ? "←" : "→"}
-              </span>
-            </a>
-
-            <p className="mt-6 break-all text-sm text-white/30">
-              {CONTACT_INFO.email}
-            </p>
-          </div>
+          
         </div>
       </section>
 

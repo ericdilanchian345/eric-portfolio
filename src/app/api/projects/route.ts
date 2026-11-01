@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 const projects = [
   {
     number: "01",
-    title: "Rockstar",
+    title: "Project One",
     category: {
       en: "Web Design & Development",
       fa: "طراحی و توسعه وب",

@@ -34,7 +34,7 @@ app.MapGet("/api/projects", () =>
         new
         {
             number = "01",
-            title = "Rockstar",
+            title = "Project One",
             category = new
             {
                 en = "Web Design & Development",
@@ -81,7 +81,7 @@ app.MapGet("/api/projects", () =>
                 en = "A distinctive visual direction designed to create a consistent and memorable brand experience.",
                 fa = "هویتی بصری متمایز برای ساخت تجربه‌ای یکپارچه و ماندگار از برند."
             },
-            image = "/images/project-3.jpg",
+            image = "/images/screenshoot3.jpg",
             href = "",
             tags = new[] { "Branding", "Visual Design", "Identity" }
         },
