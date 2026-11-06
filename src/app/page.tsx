@@ -784,7 +784,7 @@ export default function Home() {
                   <>
                     {/* IMAGE CARD */}
 
-                    <div className="relative isolate aspect-[4/3] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#101010] transition-all duration-500 group-hover:-translate-y-1 group-hover:border-orange-500 group-hover:shadow-[0_24px_70px_rgba(0,0,0,0.45),0_0_35px_rgba(249,115,22,0.08)]">
+                    <div className="relative isolate aspect-[4/3] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#101010] transition-all duration-500 group-hover:-translate-y-1  group-hover:shadow-[0_24px_70px_rgba(0,0,0,0.45),0_0_35px_rgba(249,115,22,0.08)]">
                       <div className="absolute inset-0 bg-gradient-to-br from-[#20160f] via-[#111111] to-[#080808]" />
 
                       <img
@@ -804,9 +804,7 @@ export default function Home() {
                           PROJECT / {project.number}
                         </span>
 
-                        <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/30 text-lg text-white transition-all duration-500 group-hover:rotate-45 group-hover:border-orange-500 group-hover:bg-orange-500 group-hover:text-black">
-                          {isRTL ? "↖" : "↗"}
-                        </span>
+                        
                       </div>
 
                       <div className="absolute inset-x-5 bottom-5 sm:inset-x-7 sm:bottom-7">
@@ -816,7 +814,7 @@ export default function Home() {
                         </span>
                       </div>
 
-                      <div className="pointer-events-none absolute inset-3 rounded-xl border border-white/0 transition-colors duration-500 group-hover:border-orange-400/30" />
+                      <div className="pointer-events-none absolute inset-3 rounded-xl border border-white/0 transition-colors duration-500 " />
                     </div>
 
                     {/* PROJECT INFORMATION */}
@@ -833,9 +831,7 @@ export default function Home() {
                           </p>
                         </div>
 
-                        <span className="mt-1 shrink-0 text-xl text-orange-500 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
-                          {isRTL ? "↖" : "↗"}
-                        </span>
+                        
                       </div>
 
                       {/* TECHNOLOGY TAGS */}
