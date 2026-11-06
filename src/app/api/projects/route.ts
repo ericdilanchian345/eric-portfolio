@@ -57,8 +57,8 @@ const projects = [
       en: "A responsive digital product built around performance, accessibility, and a smooth user experience.",
       fa: "محصولی دیجیتال و واکنش‌گرا با تمرکز بر سرعت، دسترس‌پذیری و تجربه کاربری روان.",
     },
-    image: "/images/project-4.jpg",
-    href: "",
+    image: "/images/screenshoot4.jpg",
+    href: "https://cafe-restaurant-beta.vercel.app/",
     tags: ["React", "Development", "Performance"],
   },
 ];
